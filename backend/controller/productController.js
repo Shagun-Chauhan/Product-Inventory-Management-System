@@ -28,7 +28,7 @@ const addProduct = async (req,res)=>{
 const updateProduct  = async (req,res)=>{
   try {
     const data = req.body;
-    let response = await products.updateOne({productName : data.productName},{
+    let response = await products.updateOne({_id : data._id},{
         $set:{
             productName : data.productName,
             description : data.description,
@@ -103,7 +103,7 @@ const getAllProducts = async(req, res)=>{
 const deleteProduct = async (req, res)=>{
     try{
        const data=req.body;
-       let response=await products.deleteOne({productName : data.productName});
+       let response=await products.deleteOne({_id : data.id});
        if(response.deletedCount > 0){
         return res.status(200).json({
             success:true,
