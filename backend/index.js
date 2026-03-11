@@ -6,6 +6,7 @@ const port = 3000;
 const app = express();
 app.use(express.json());
 
+
 //atlas password : 6pnfSdm4nlVmWlov
 
 app.get("/",(req,res)=>{
@@ -15,6 +16,6 @@ app.listen(port,()=>{
     console.log(`Server is running on ${port}`);
 })
 
-app.use("/product",productRouter);
+app.use("/api/products",productRouter);
 
 dbConnect();
