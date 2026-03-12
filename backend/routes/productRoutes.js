@@ -16,4 +16,5 @@ router.get("/getallproducts",getAllProducts)
 
 router.delete("/delete", deleteProduct)
 
+
 module.exports = router;
