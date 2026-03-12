@@ -13,7 +13,8 @@ const addProduct = async (req,res)=>{
         if(productData){
             return res.status(200).json({
                 success:true,
-                message:"Product added successfully"
+                message:"Product added successfully",
+                productData
             })
         }
     } catch (error) {
