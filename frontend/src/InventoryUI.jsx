@@ -19,6 +19,8 @@ export default function InventoryUI() {
   const [editForm, setEditForm] = useState({})
   const [selectedProductId, setSelectedProductId] = useState(null);
 
+  const [totalInventoryValue, setTotalInventoryValue] = useState(null);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -73,13 +75,22 @@ export default function InventoryUI() {
 
   useEffect(() => {
     fetchProducts()
-  }, [])
+  }, [products])
 
-  const handleSearch=(e)=>{
+  useEffect(() => {
+    let totalValue = products.reduce((acc, product) => {
+      return acc + (Number(product.costPrice) * Number(product.quantity))
+    }, 0)
+
+    setTotalInventoryValue(totalValue)
+
+  }, [products])
+
+  const handleSearch = (e) => {
     let value = e.target.value.toLowerCase();
-    let filtered=productsCopy.filter((product)=>(
+    let filtered = productsCopy.filter((product) => (
       product.productName.toLowerCase().includes(value) ||
-      product.category.toLowerCase().includes(value)||
+      product.category.toLowerCase().includes(value) ||
       product.description.toLowerCase().includes(value)
     ))
     setProducts(filtered);
@@ -99,7 +110,7 @@ export default function InventoryUI() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
+        <div className="grid md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white rounded-2xl shadow p-6">
             <p className="text-gray-500 text-sm">Total Products</p>
             <h2 className="text-3xl font-bold">{products.length}</h2>
@@ -113,6 +124,11 @@ export default function InventoryUI() {
           <div className="bg-white rounded-2xl shadow p-6">
             <p className="text-gray-500 text-sm">Categories</p>
             <h2 className="text-3xl font-bold">{new Set(products.map((product) => product.category)).size}</h2>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow p-6">
+            <p className="text-gray-500 text-sm">Total Inventory Value</p>
+            <h2 className="text-3xl font-bold">{totalInventoryValue}</h2>
           </div>
         </div>
 
@@ -200,6 +216,7 @@ export default function InventoryUI() {
                   <th>Category</th>
                   <th>Cost Price</th>
                   <th>Selling Price</th>
+                  <th>Profit Margin</th>
                   <th>Quantity</th>
                   <th>Description</th>
                   <th>Status</th>
@@ -207,13 +224,14 @@ export default function InventoryUI() {
                 </tr>
               </thead>
               <tbody>
-              {
-                products.map((product) => (
+                {
+                  products.map((product) => (
                     <tr key={product._id} className="border-b hover:bg-gray-50">
                       <td className="py-3 font-medium">{product.productName}</td>
                       <td>{product.category}</td>
                       <td>{product.costPrice}</td>
                       <td>{product.sellingPrice}</td>
+                      <td>{product.sellingPrice - product.costPrice}</td>
                       <td>{product.quantity}</td>
                       <td>{product.description}</td>
                       <td>
@@ -252,8 +270,8 @@ export default function InventoryUI() {
                         </button>
                       </td>
                     </tr>
-                ))
-              }
+                  ))
+                }
               </tbody>
             </table>
           </div>
