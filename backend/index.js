@@ -8,15 +8,12 @@ const port = process.env.PORT || 3000;
 const app = express();
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:5173",
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
 }));
 
 app.use(express.json());
-
-
-//atlas password : 6pnfSdm4nlVmWlov
 
 app.get("/", (req, res) => {
     res.send("Backend is runnning")
