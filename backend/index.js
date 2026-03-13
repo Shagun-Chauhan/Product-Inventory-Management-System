@@ -1,4 +1,4 @@
-const express=require("express");
+const express = require("express");
 const dbConnect = require('./dbConnect')
 const productRouter = require("./routes/productRoutes")
 const port = 3000;
@@ -9,13 +9,14 @@ app.use(express.json());
 
 //atlas password : 6pnfSdm4nlVmWlov
 
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
     res.send("Backend is runnning")
 })
-app.listen(port,()=>{
-    console.log(`Server is running on ${port}`);
-})
 
-app.use("/api/products",productRouter);
+app.use("/api/products", productRouter);
 
 dbConnect();
+
+app.listen(port, () => {
+    console.log(`Server is running on ${port}`);
+})
